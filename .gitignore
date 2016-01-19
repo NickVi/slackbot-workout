@@ -1,6 +1,5 @@
-config.json
 *.pyc
-
+.DS_Store
 log*.csv
 log*.csv_DEBUG
 user_cache.save
