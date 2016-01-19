@@ -1,1 +1,1 @@
-web: python slackbotExercise.py
+web: python slackbotExercise.py --log-file -
