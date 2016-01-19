@@ -43,6 +43,13 @@
       "minReps": 10,
       "maxReps": 25,
       "units": "second"
+    },
+    {
+      "id": 3,
+      "name": "calf raises",
+      "minReps": 60,
+      "maxReps": 90,
+      "units": "second"
     }
   ]
 }
