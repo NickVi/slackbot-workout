@@ -17,7 +17,7 @@
       "maxTime": 60,
       "units": "minutes"
     },
-    "numPeople": 3,
+    "numPeople": 99,
     "slidingWindowSize": 8,
     "groupCalloutChance": 0.05
   },
