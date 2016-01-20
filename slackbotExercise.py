@@ -80,39 +80,39 @@ def selectUser(bot, exercise):
 
     # Add all active users not already in the user queue
     # Shuffles to randomly add new active users
-    shuffle(active_users)
-    bothArrays = set(active_users).intersection(bot.user_queue)
-    for user in active_users:
-        if user not in bothArrays:
-            bot.user_queue.append(user)
+    # shuffle(active_users)
+    # bothArrays = set(active_users).intersection(bot.user_queue)
+    # for user in active_users:
+    #     if user not in bothArrays:
+    #         bot.user_queue.append(user)
 
     # The max number of users we are willing to look forward
     # to try and find a good match
-    sliding_window = bot.sliding_window_size
+    # sliding_window = bot.sliding_window_size
 
     # find a user to draw, priority going to first in
-    for i in range(len(bot.user_queue)):
-        user = bot.user_queue[i]
+    # for i in range(len(bot.user_queue)):
+    #     user = bot.user_queue[i]
 
         # User should be active and not have done exercise yet
-        if user in active_users and not user.hasDoneExercise(exercise):
-            bot.user_queue.remove(user)
-            return user
-        elif user in active_users:
+        # if user in active_users and not user.hasDoneExercise(exercise):
+        #     bot.user_queue.remove(user)
+        #     return user
+        # elif user in active_users:
             # Decrease sliding window by one. Basically, we don't want to jump
             # too far ahead in our queue
-            sliding_window -= 1
-            if sliding_window <= 0:
-                break
+            # sliding_window -= 1
+            # if sliding_window <= 0:
+            #     break
 
     # If everybody has done exercises or we didn't find a person within our sliding window,
-    for user in bot.user_queue:
-        if user in active_users:
-            bot.user_queue.remove(user)
-            return user
+    # for user in bot.user_queue:
+    #     if user in active_users:
+    #         bot.user_queue.remove(user)
+    #         return user
 
     # If we weren't able to select one, just pick a random
-    print "Selecting user at random (queue length was " + str(len(bot.user_queue)) + ")"
+    # print "Selecting user at random (queue length was " + str(len(bot.user_queue)) + ")"
     return active_users
 
 
