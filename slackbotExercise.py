@@ -113,7 +113,7 @@ def selectUser(bot, exercise):
 
     # If we weren't able to select one, just pick a random
     print "Selecting user at random (queue length was " + str(len(bot.user_queue)) + ")"
-    return active_users[random.randrange(0, len(active_users))]
+    return active_users
 
 
 '''

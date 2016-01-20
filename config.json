@@ -4,7 +4,7 @@
   "channelId": "C0JR1BDPD",
 
   "officeHours": {
-    "on": true,
+    "on": false,
     "begin": 10,
     "end": 17
    },
@@ -17,7 +17,7 @@
       "maxTime": 60,
       "units": "minutes"
     },
-    "numPeople": 99,
+    "numPeople": 4,
     "slidingWindowSize": 8,
     "groupCalloutChance": 0.05
   },
@@ -50,6 +50,13 @@
       "minReps": 60,
       "maxReps": 90,
       "units": "second"
+    },
+    {
+      "id": 3,
+      "name": "crunches",
+      "minReps": 5,
+      "maxReps": 10,
+      "units": "rep"
     }
   ]
 }
