@@ -222,6 +222,8 @@ def isOfficeHours(bot):
 def main():
     bot = Bot()
 
+    fetchActiveUsers(bot)
+
     try:
         while True:
             if isOfficeHours(bot):
