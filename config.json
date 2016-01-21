@@ -20,13 +20,6 @@
   },
 
   "exercises": [
-    /*{
-      "id": 0,
-      "name": "pushups",
-      "minReps": 5,
-      "maxReps": 10,
-      "units": "rep"
-    },*/
     {
       "id": 1,
       "name": "planks",
