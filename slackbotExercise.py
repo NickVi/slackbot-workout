@@ -17,6 +17,7 @@ URL_TOKEN_STRING =  os.environ['SLACK_URL_TOKEN_STRING']
 
 HASH = "%23"
 
+slack_params = { "username": "workout-bot", "icon_emoji": ":lifter_tone2:" }
 
 # Configuration values to be set in setConfiguration
 class Bot:
@@ -110,7 +111,7 @@ def selectExerciseAndStartTime(bot):
 
     # Announce the exercise to the thread
     if not bot.debug:
-        requests.post(bot.post_URL, data=lottery_announcement)
+        requests.post(bot.post_URL, data=lottery_announcement, params=slack_params)
     print lottery_announcement
 
     # Sleep the script until time is up
@@ -162,7 +163,7 @@ def assignExercise(bot, exercise):
 
     # Announce the user
     if not bot.debug:
-        requests.post(bot.post_URL, data=winner_announcement)
+        requests.post(bot.post_URL, data=winner_announcement, params=slack_params)
     print winner_announcement
 
 
@@ -197,7 +198,7 @@ def saveUsers(bot):
     s += "```"
 
     if not bot.debug:
-        requests.post(bot.post_URL, data=s)
+        requests.post(bot.post_URL, data=s, params=slack_params)
     print s
 
 
