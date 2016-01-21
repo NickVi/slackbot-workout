@@ -148,6 +148,8 @@ def assignExercise(bot, exercise):
     winner_announcement = str(exercise_reps) + " " + str(exercise["units"]) + " " + exercise["name"] + " RIGHT NOW "
 
     # EVERYBODY
+    fetchActiveUsers(bot)
+    
     for user_id in bot.user_cache:
         user = bot.user_cache[user_id]
         winner_announcement += " " + str(user.getUserHandle())
@@ -221,8 +223,6 @@ def isOfficeHours(bot):
 
 def main():
     bot = Bot()
-
-    fetchActiveUsers(bot)
 
     try:
         while True:
