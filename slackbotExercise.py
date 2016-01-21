@@ -57,9 +57,6 @@ class Bot:
             self.channel_name = settings["channelName"]
             self.min_countdown = settings["callouts"]["timeBetween"]["minTime"]
             self.max_countdown = settings["callouts"]["timeBetween"]["maxTime"]
-            self.num_people_per_callout = settings["callouts"]["numPeople"]
-            self.sliding_window_size = settings["callouts"]["slidingWindowSize"]
-            self.group_callout_chance = settings["callouts"]["groupCalloutChance"]
             self.channel_id = settings["channelId"]
             self.exercises = settings["exercises"]
             self.office_hours_on = settings["officeHours"]["on"]
@@ -72,50 +69,6 @@ class Bot:
 
 
 ################################################################################
-'''
-Selects an active user from a list of users
-'''
-def selectUser(bot, exercise):
-    active_users = fetchActiveUsers(bot)
-
-    # Add all active users not already in the user queue
-    # Shuffles to randomly add new active users
-    # shuffle(active_users)
-    # bothArrays = set(active_users).intersection(bot.user_queue)
-    # for user in active_users:
-    #     if user not in bothArrays:
-    #         bot.user_queue.append(user)
-
-    # The max number of users we are willing to look forward
-    # to try and find a good match
-    # sliding_window = bot.sliding_window_size
-
-    # find a user to draw, priority going to first in
-    # for i in range(len(bot.user_queue)):
-    #     user = bot.user_queue[i]
-
-        # User should be active and not have done exercise yet
-        # if user in active_users and not user.hasDoneExercise(exercise):
-        #     bot.user_queue.remove(user)
-        #     return user
-        # elif user in active_users:
-            # Decrease sliding window by one. Basically, we don't want to jump
-            # too far ahead in our queue
-            # sliding_window -= 1
-            # if sliding_window <= 0:
-            #     break
-
-    # If everybody has done exercises or we didn't find a person within our sliding window,
-    # for user in bot.user_queue:
-    #     if user in active_users:
-    #         bot.user_queue.remove(user)
-    #         return user
-
-    # If we weren't able to select one, just pick a random
-    # print "Selecting user at random (queue length was " + str(len(bot.user_queue)) + ")"
-    return active_users
-
-
 '''
 Fetches a list of all active users in the channel
 '''
@@ -195,29 +148,15 @@ def assignExercise(bot, exercise):
     winner_announcement = str(exercise_reps) + " " + str(exercise["units"]) + " " + exercise["name"] + " RIGHT NOW "
 
     # EVERYBODY
-    if random.random() < bot.group_callout_chance:
-        winner_announcement += "@channel!"
+    for user_id in bot.user_cache:
+        user = bot.user_cache[user_id]
+        winner_announcement += " " + str(user.getUserHandle())
 
-        for user_id in bot.user_cache:
-            user = bot.user_cache[user_id]
-            user.addExercise(exercise, exercise_reps)
+    for user_id in bot.user_cache:
+        user = bot.user_cache[user_id]
+        user.addExercise(exercise, exercise_reps)
 
-        logExercise(bot,"@channel",exercise["name"],exercise_reps,exercise["units"])
-
-    else:
-        winners = [selectUser(bot, exercise) for i in range(bot.num_people_per_callout)]
-
-        for i in range(bot.num_people_per_callout):
-            winner_announcement += str(winners[i].getUserHandle())
-            if i == bot.num_people_per_callout - 2:
-                winner_announcement += ", and "
-            elif i == bot.num_people_per_callout - 1:
-                winner_announcement += "!"
-            else:
-                winner_announcement += ", "
-
-            winners[i].addExercise(exercise, exercise_reps)
-            logExercise(bot,winners[i].getUserHandle(),exercise["name"],exercise_reps,exercise["units"])
+    logExercise(bot,"@channel",exercise["name"],exercise_reps,exercise["units"])
 
     # Announce the user
     if not bot.debug:
