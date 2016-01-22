@@ -21,6 +21,13 @@
 
   "exercises": [
     {
+      "id": 0,
+      "name": "pushups",
+      "minReps": 5,
+      "maxReps": 10,
+      "units": "rep"
+    },
+    {
       "id": 1,
       "name": "planks",
       "minReps": 10,
@@ -42,7 +49,7 @@
       "units": "second"
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "crunches",
       "minReps": 5,
       "maxReps": 10,
