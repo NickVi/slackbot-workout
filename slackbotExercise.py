@@ -34,6 +34,8 @@ class Bot:
         # round robin store
         self.user_queue = []
 
+        self.previous_exercise = None
+
 
     def loadUserCache(self):
         if os.path.isfile('user_cache.save'):
@@ -74,6 +76,16 @@ class Bot:
 Fetches a list of all active users in the channel
 '''
 def fetchActiveUsers(bot):
+    if bot.first_run:
+        bot.first_run = False
+
+    # Generate fake user list for debugging
+    if bot.debug:
+        fakeUser = User("test123", True)
+        bot.user_cache["test123"] = fakeUser
+        return [fakeUser]
+
+
     # Check for new members
     params = {"token": USER_TOKEN_STRING, "channel": bot.channel_id}
     response = requests.get("https://slack.com/api/channels.info", params=params)
@@ -87,13 +99,10 @@ def fetchActiveUsers(bot):
             bot.user_cache[user_id] = User(user_id)
             if not bot.first_run:
                 # Push our new users near the front of the queue!
-                bot.user_queue.insert(2,bot.user_cache[user_id])
+                bot.user_queue.insert(2, bot.user_cache[user_id])
 
         if bot.user_cache[user_id].isActive():
             active_users.append(bot.user_cache[user_id])
-
-    if bot.first_run:
-        bot.first_run = False
 
     return active_users
 
@@ -112,15 +121,16 @@ def selectExerciseAndStartTime(bot):
     # Announce the exercise to the thread
     if not bot.debug:
         requests.post(bot.post_URL, data=lottery_announcement, params=slack_params)
-    print lottery_announcement
 
     # Sleep the script until time is up
     if not bot.debug:
         time.sleep(next_time_interval)
     else:
         # If debugging, once every 5 seconds
+        print lottery_announcement
         time.sleep(5)
 
+    bot.previous_exercise = exercise
     return exercise
 
 
@@ -128,8 +138,10 @@ def selectExerciseAndStartTime(bot):
 Selects the next exercise
 '''
 def selectExercise(bot):
-    idx = random.randrange(0, len(bot.exercises))
-    return bot.exercises[idx]
+    if bot.debug:
+        print "Prev. exercise", bot.previous_exercise
+
+    return random.choice([ex for ex in bot.exercises if ex != bot.previous_exercise])
 
 
 '''
@@ -150,7 +162,7 @@ def assignExercise(bot, exercise):
 
     # EVERYBODY
     fetchActiveUsers(bot)
-    
+
     for user_id in bot.user_cache:
         user = bot.user_cache[user_id]
         winner_announcement += " " + str(user.getUserHandle())
@@ -211,6 +223,7 @@ def isOfficeHours(bot):
         if bot.debug:
             print "not office hours"
         return True
+
     now = datetime.datetime.now()
     now_time = now.time()
     if now_time >= datetime.time(bot.office_hours_begin) and now_time <= datetime.time(bot.office_hours_end):
@@ -227,6 +240,7 @@ def main():
 
     try:
         while True:
+
             if isOfficeHours(bot):
                 # Re-fetch config file if settings have changed
                 bot.setConfiguration()

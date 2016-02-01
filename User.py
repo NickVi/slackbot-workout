@@ -8,12 +8,22 @@ USER_TOKEN_STRING =  os.environ['SLACK_USER_TOKEN_STRING']
 
 class User:
 
-    def __init__(self, user_id):
+    def __init__(self, user_id, debug=False):
         # The Slack ID of the user
-        self.id = user_id
 
-        # The username (@username) and real name
-        self.username, self.real_name = self.fetchNames()
+        if debug:
+            self.id = "u1337"
+            self.username = "Test-bot"
+            self.real_name = "Testiekelbot"
+
+            self.debug = debug
+        else:
+            self.id = user_id
+
+            # The username (@username) and real name
+            self.username, self.real_name = self.fetchNames()
+            print "New user: " + self.real_name + " (" + self.username + ")"
+
 
         # A list of all exercises done by user
         self.exercise_history = []
@@ -27,7 +37,6 @@ class User:
         # A record of past runs
         self.past_workouts = {}
 
-        print "New user: " + self.real_name + " (" + self.username + ")"
 
 
     def storeSession(self, run_name):
@@ -61,6 +70,9 @@ class User:
     Returns true if a user is currently "active", else false
     '''
     def isActive(self):
+        if self.debug:
+            return True
+
         try:
             params = {"token": USER_TOKEN_STRING, "user": self.id}
             response = requests.get("https://slack.com/api/users.getPresence",
