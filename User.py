@@ -11,12 +11,12 @@ class User:
     def __init__(self, user_id, debug=False):
         # The Slack ID of the user
 
+        self.debug = debug
+
         if debug:
             self.id = "u1337"
             self.username = "Test-bot"
             self.real_name = "Testiekelbot"
-
-            self.debug = debug
         else:
             self.id = user_id
 
