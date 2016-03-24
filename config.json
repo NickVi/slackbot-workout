@@ -23,22 +23,22 @@
     {
       "id": 0,
       "name": "pushups",
-      "minReps": 5,
-      "maxReps": 10,
+      "minReps": 8,
+      "maxReps": 13,
       "units": "rep"
     },
     {
       "id": 1,
       "name": "planks",
-      "minReps": 10,
-      "maxReps": 25,
+      "minReps": 20,
+      "maxReps": 35,
       "units": "second"
     },
     {
       "id": 2,
       "name": "wall sit",
-      "minReps": 10,
-      "maxReps": 25,
+      "minReps": 20,
+      "maxReps": 28,
       "units": "second"
     },
     {
@@ -51,8 +51,8 @@
     {
       "id": 4,
       "name": "squats",
-      "minReps": 10,
-      "maxReps": 20,
+      "minReps": 15,
+      "maxReps": 25,
       "units": "rep"
     }
   ]
